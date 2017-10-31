@@ -68,29 +68,29 @@ export default class Model {
   /**
    * Creates has one relationship.
    */
-  static hasOne (model: typeof Model | string, foreignKey: string): HasOne {
-    return Attributes.hasOne(model, foreignKey)
+  static hasOne (model: typeof Model | string, foreignKey: string, polymorphic: boolean): HasOne {
+    return Attributes.hasOne(model, foreignKey, polymorphic)
   }
 
   /**
    * Creates belongs to relationship.
    */
-  static belongsTo (model: typeof Model | string, foreignKey: string): BelongsTo {
-    return Attributes.belongsTo(model, foreignKey)
+  static belongsTo(model: typeof Model | string, foreignKey: string, polymorphic: boolean): BelongsTo {
+    return Attributes.belongsTo(model, foreignKey, polymorphic)
   }
 
   /**
    * Creates has many relationship.
    */
-  static hasMany (model: typeof Model | string, foreignKey: string): HasMany {
-    return Attributes.hasMany(model, foreignKey)
+  static hasMany(model: typeof Model | string, foreignKey: string, polymorphic: boolean): HasMany {
+    return Attributes.hasMany(model, foreignKey, polymorphic)
   }
 
   /**
    * The has many by relationship.
    */
-  static hasManyBy (model: typeof Model | string, foreignKey: string, otherKey: string): HasManyBy {
-    return Attributes.hasManyBy(model, foreignKey, otherKey)
+  static hasManyBy(model: typeof Model | string, foreignKey: string, otherKey: string, polymorphic: boolean): HasManyBy {
+    return Attributes.hasManyBy(model, foreignKey, otherKey, polymorphic)
   }
 
   /**
@@ -111,6 +111,9 @@ export default class Model {
    * Resolve relation out of the container.
    */
   static resolveRelation (attr: HasOne | BelongsTo | HasMany | HasManyBy): typeof Model {
+    if (attr.polymorphic) {
+      return this.relation(attr.value.type)
+    }
     return _.isString(attr.model) ? this.relation(attr.model) : attr.model
   }
 

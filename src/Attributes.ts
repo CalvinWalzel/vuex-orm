@@ -21,6 +21,7 @@ export interface HasOne {
   model: typeof Model | string
   foreignKey: string
   value: any
+  polymorphic: boolean
 }
 
 export interface BelongsTo {
@@ -28,6 +29,7 @@ export interface BelongsTo {
   model: typeof Model | string
   foreignKey: string
   value: any
+  polymorphic: boolean
 }
 
 export interface HasMany {
@@ -35,6 +37,7 @@ export interface HasMany {
   model: typeof Model | string
   foreignKey: string
   value: any
+  polymorphic: boolean
 }
 
 export interface HasManyBy {
@@ -43,6 +46,7 @@ export interface HasManyBy {
   foreignKey: string
   otherKey: string
   value: any
+  polymorphic: boolean
 }
 
 export default class Attributes {
@@ -57,29 +61,29 @@ export default class Attributes {
   /**
    * The has one relationship.
    */
-  static hasOne (model: typeof Model | string, foreignKey: string): HasOne {
-    return { type: Type.HasOne, model, foreignKey, value: null }
+  static hasOne (model: typeof Model | string, foreignKey: string, polymorphic: boolean): HasOne {
+    return { type: Type.HasOne, model, foreignKey, value: null, polymorphic }
   }
 
   /**
    * The belongs to relationship.
    */
-  static belongsTo (model: typeof Model | string, foreignKey: string): BelongsTo {
-    return { type: Type.BelongsTo, model, foreignKey, value: null }
+  static belongsTo(model: typeof Model | string, foreignKey: string, polymorphic: boolean): BelongsTo {
+    return { type: Type.BelongsTo, model, foreignKey, value: null, polymorphic }
   }
 
   /**
    * The has many relationship.
    */
-  static hasMany (model: typeof Model | string, foreignKey: string): HasMany {
-    return { type: Type.HasMany, model, foreignKey, value: null }
+  static hasMany(model: typeof Model | string, foreignKey: string, polymorphic: boolean): HasMany {
+    return { type: Type.HasMany, model, foreignKey, value: null, polymorphic }
   }
 
   /**
    * The has many by relationship.
    */
-  static hasManyBy (model: typeof Model | string, foreignKey: string, otherKey: string = 'id'): HasManyBy {
-    return { type: Type.HasManyBy, model, foreignKey, otherKey, value: null }
+  static hasManyBy(model: typeof Model | string, foreignKey: string, otherKey: string = 'id', polymorphic: boolean): HasManyBy {
+    return { type: Type.HasManyBy, model, foreignKey, otherKey, value: null, polymorphic }
   }
 
   /**
